@@ -1,4 +1,6 @@
 import { MotionConfig } from 'framer-motion'
+import { ScrollProgress } from './components/ui/ScrollProgress'
+import { BackToTop } from './components/ui/BackToTop'
 import { Navbar } from './components/sections/Navbar'
 import { Hero } from './components/sections/Hero'
 import { Marquee } from './components/sections/Marquee'
@@ -15,6 +17,7 @@ import { Footer } from './components/sections/Footer'
 export default function App() {
   return (
     <MotionConfig reducedMotion="user">
+      <ScrollProgress />
       <a
         href="#main"
         className="sr-only rounded-full focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-forest focus:px-5 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-cream focus:shadow-card"
@@ -38,6 +41,7 @@ export default function App() {
       </main>
 
       <Footer />
+      <BackToTop />
     </MotionConfig>
   )
 }

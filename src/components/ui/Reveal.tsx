@@ -5,12 +5,14 @@ import { EASE, viewportOnce } from '../../lib/motion'
 export function Reveal({
   children,
   delay = 0,
-  y = 24,
+  y = 26,
+  blur = true,
   className = '',
 }: {
   children: ReactNode
   delay?: number
   y?: number
+  blur?: boolean
   className?: string
 }) {
   const reduce = useReducedMotion()
@@ -22,10 +24,10 @@ export function Reveal({
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y, filter: blur ? 'blur(6px)' : 'blur(0px)' }}
+      whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
       viewport={viewportOnce}
-      transition={{ duration: 0.7, ease: EASE, delay }}
+      transition={{ duration: 0.75, ease: EASE, delay }}
     >
       {children}
     </motion.div>

@@ -1,4 +1,12 @@
-import { motion, useReducedMotion } from 'framer-motion'
+import { useRef, type MouseEvent } from 'react'
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useMotionValue,
+} from 'framer-motion'
 import {
   Sprout,
   MapPin,
@@ -16,12 +24,27 @@ import { EASE } from '../../lib/motion'
 
 const container = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.09, delayChildren: 0.08 } },
+  show: { transition: { staggerChildren: 0.08, delayChildren: 0.06 } },
 }
 const item = {
   hidden: { opacity: 0, y: 24 },
   show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE } },
 }
+const wordsParent = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.05, delayChildren: 0.12 } },
+}
+const word = {
+  hidden: { opacity: 0, y: 22, filter: 'blur(6px)' },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 0.7, ease: EASE },
+  },
+}
+
+const titleLead = ['Malt', 'brings', 'home', 'services', 'to', 'your']
 
 function BookingCard() {
   return (
@@ -90,10 +113,43 @@ function BookingCard() {
 
 export function Hero() {
   const reduce = useReducedMotion()
+  const heroRef = useRef<HTMLElement>(null)
+
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  })
+  const sceneY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, 80])
+  const sceneScale = useTransform(
+    scrollYProgress,
+    [0, 1],
+    reduce ? [1, 1] : [1, 1.08],
+  )
+  const cardY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, -46])
+  const chipY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, -86])
+  const badgeY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, 36])
+
+  // gentle pointer parallax on the scene
+  const mvx = useMotionValue(0)
+  const mvy = useMotionValue(0)
+  const px = useSpring(mvx, { stiffness: 150, damping: 20, mass: 0.4 })
+  const py = useSpring(mvy, { stiffness: 150, damping: 20, mass: 0.4 })
+
+  const onMove = (e: MouseEvent) => {
+    if (reduce) return
+    const r = e.currentTarget.getBoundingClientRect()
+    mvx.set(((e.clientX - r.left) / r.width - 0.5) * 22)
+    mvy.set(((e.clientY - r.top) / r.height - 0.5) * 22)
+  }
+  const onLeave = () => {
+    mvx.set(0)
+    mvy.set(0)
+  }
 
   return (
     <section
       id="top"
+      ref={heroRef}
       aria-labelledby="hero-title"
       className="relative overflow-hidden pt-28 pb-16 sm:pt-32 lg:pb-24"
     >
@@ -117,12 +173,25 @@ export function Hero() {
             </motion.div>
 
             <motion.h1
-              variants={item}
+              variants={wordsParent}
               id="hero-title"
               className="mt-5 text-display text-ink"
             >
-              Malt brings home services to your{' '}
-              <span className="italic text-forest">doorstep.</span>
+              {titleLead.map((w, i) => (
+                <motion.span
+                  key={i}
+                  variants={word}
+                  className="mr-[0.24em] inline-block"
+                >
+                  {w}
+                </motion.span>
+              ))}
+              <motion.span
+                variants={word}
+                className="inline-block italic text-forest"
+              >
+                doorstep.
+              </motion.span>
             </motion.h1>
 
             <motion.p
@@ -178,39 +247,61 @@ export function Hero() {
             initial={reduce ? false : { opacity: 0, scale: 0.96, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.9, ease: EASE, delay: 0.15 }}
+            onMouseMove={onMove}
+            onMouseLeave={onLeave}
             className="relative mx-auto w-full max-w-[460px] lg:max-w-none"
           >
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-grain shadow-float ring-1 ring-line sm:aspect-[5/6]">
-              <HomeScene className="absolute inset-0" />
-            </div>
+            <motion.div
+              style={{ y: sceneY, scale: sceneScale }}
+              className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-grain shadow-float ring-1 ring-line will-change-transform sm:aspect-[5/6]"
+            >
+              <motion.div style={{ x: px, y: py }} className="absolute inset-0">
+                <HomeScene className="absolute inset-0 h-full w-full scale-105" />
+              </motion.div>
+            </motion.div>
 
             {/* rating chip */}
-            <div className="absolute -right-2 top-6 flex items-center gap-2 rounded-full border border-line bg-paper/95 py-2 pl-2 pr-3.5 shadow-card backdrop-blur-sm animate-float sm:right-4">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-forest text-xs font-semibold text-cream">
-                MK
-              </span>
-              <div className="leading-tight">
-                <p className="flex items-center gap-1 text-sm font-semibold text-ink">
-                  <Star className="h-3.5 w-3.5 fill-honey text-honey" aria-hidden />
-                  4.9
-                </p>
-                <p className="text-[11px] text-muted">Verified worker</p>
-              </div>
-            </div>
-
-            {/* verified badge */}
-            <div
-              className="absolute right-2 top-1/2 hidden items-center gap-1.5 rounded-full border border-forest/15 bg-meadow-50 px-3 py-1.5 text-xs font-semibold text-forest shadow-soft animate-float-slow sm:inline-flex"
-              style={{ animationDelay: '0.8s' }}
+            <motion.div
+              style={{ y: chipY }}
+              className="absolute -right-2 top-6 sm:right-4"
             >
-              <ShieldCheck className="h-4 w-4" aria-hidden />
-              Price upfront
-            </div>
+              <div className="flex items-center gap-2 rounded-full border border-line bg-paper/95 py-2 pl-2 pr-3.5 shadow-card backdrop-blur-sm animate-float">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-forest text-xs font-semibold text-cream">
+                  MK
+                </span>
+                <div className="leading-tight">
+                  <p className="flex items-center gap-1 text-sm font-semibold text-ink">
+                    <Star className="h-3.5 w-3.5 fill-honey text-honey" aria-hidden />
+                    4.9
+                  </p>
+                  <p className="text-[11px] text-muted">Verified worker</p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* price badge */}
+            <motion.div
+              style={{ y: badgeY }}
+              className="absolute right-2 top-1/2 hidden sm:block"
+            >
+              <div
+                className="inline-flex items-center gap-1.5 rounded-full border border-forest/15 bg-meadow-50 px-3 py-1.5 text-xs font-semibold text-forest shadow-soft animate-float-slow"
+                style={{ animationDelay: '0.8s' }}
+              >
+                <ShieldCheck className="h-4 w-4" aria-hidden />
+                Price upfront
+              </div>
+            </motion.div>
 
             {/* booking card */}
-            <div className="absolute -bottom-6 -left-2 animate-float-slow sm:-left-6">
-              <BookingCard />
-            </div>
+            <motion.div
+              style={{ y: cardY }}
+              className="absolute -bottom-6 -left-2 sm:-left-6"
+            >
+              <div className="animate-float-slow">
+                <BookingCard />
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </Container>

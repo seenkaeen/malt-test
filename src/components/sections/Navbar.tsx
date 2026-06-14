@@ -11,6 +11,7 @@ import { EASE } from '../../lib/motion'
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const [active, setActive] = useState('')
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16)
@@ -30,6 +31,23 @@ export function Navbar() {
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false)
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
+  useEffect(() => {
+    const els = navLinks
+      .map((l) => document.getElementById(l.href.slice(1)))
+      .filter((el): el is HTMLElement => Boolean(el))
+    if (!els.length) return
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActive(e.target.id)
+        })
+      },
+      { rootMargin: '-45% 0px -50% 0px', threshold: 0 },
+    )
+    els.forEach((el) => obs.observe(el))
+    return () => obs.disconnect()
   }, [])
 
   return (
@@ -60,16 +78,24 @@ export function Navbar() {
           </div>
 
           <ul className="hidden items-center gap-1 lg:flex">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  className="rounded-full px-3.5 py-2 text-sm font-medium text-ink/75 transition-colors hover:bg-ink/[0.05] hover:text-ink"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
+            {navLinks.map((link) => {
+              const on = active === link.href.slice(1)
+              return (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    aria-current={on ? 'true' : undefined}
+                    className={`rounded-full px-3.5 py-2 text-sm font-medium transition-colors ${
+                      on
+                        ? 'bg-ink/[0.06] text-ink'
+                        : 'text-ink/75 hover:bg-ink/[0.05] hover:text-ink'
+                    }`}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              )
+            })}
           </ul>
 
           <div className="hidden items-center gap-2.5 md:flex">

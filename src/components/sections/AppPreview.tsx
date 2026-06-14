@@ -21,6 +21,7 @@ import { serviceIcon } from '../serviceIcons'
 import { services } from '../../data/services'
 import { track } from '../../lib/analytics'
 import { EASE } from '../../lib/motion'
+import { useParallax } from '../../lib/useParallax'
 
 const AUTOPLAY_MS = 4200
 
@@ -314,6 +315,7 @@ const steps = [
 export function AppPreview() {
   const reduce = useReducedMotion()
   const [active, setActive] = useState(0)
+  const { ref: phoneRef, y: phoneY } = useParallax<HTMLDivElement>(48)
 
   useEffect(() => {
     if (reduce) return
@@ -338,6 +340,7 @@ export function AppPreview() {
       className="relative scroll-mt-24 overflow-hidden bg-ink py-20 text-cream sm:py-24 lg:py-32 bg-grain"
     >
       <div className="spot-meadow pointer-events-none absolute inset-x-0 top-0 h-80" />
+      <div className="aurora pointer-events-none absolute inset-0 opacity-50" aria-hidden />
       <Container className="relative">
         <Reveal className="max-w-2xl">
           <Eyebrow tone="light">The Malt app</Eyebrow>
@@ -403,8 +406,13 @@ export function AppPreview() {
           </ol>
 
           {/* phone */}
-          <div className="order-1 flex justify-center lg:order-2" aria-hidden>
-            <PhoneFrame>
+          <div
+            ref={phoneRef}
+            className="order-1 flex justify-center lg:order-2"
+            aria-hidden
+          >
+            <motion.div style={{ y: phoneY }} className="will-change-transform">
+              <PhoneFrame>
               <PhoneStatusBar />
               <div className="relative h-[500px]">
                 <AnimatePresence mode="wait">
@@ -420,7 +428,8 @@ export function AppPreview() {
                   </motion.div>
                 </AnimatePresence>
               </div>
-            </PhoneFrame>
+              </PhoneFrame>
+            </motion.div>
           </div>
         </div>
       </Container>

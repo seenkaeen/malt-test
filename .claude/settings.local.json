@@ -10,5 +10,6 @@
       "PowerShell(python \"D:\\\\Claude\\\\.claude\\\\skills\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"service marketplace trust premium\" --domain color -n 6)",
       "mcp__magic__logo_search"
     ]
-  }
+  },
+  "enabledPlugins": {}
 }

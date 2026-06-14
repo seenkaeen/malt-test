@@ -9,6 +9,7 @@ import { serviceIcon } from '../serviceIcons'
 import { services } from '../../data/services'
 import { track } from '../../lib/analytics'
 import { EASE } from '../../lib/motion'
+import { useParallax } from '../../lib/useParallax'
 
 type SeasonKey = 'summer' | 'winter'
 
@@ -34,6 +35,7 @@ function chipsFor(season: SeasonKey) {
 export function Seasonal() {
   const [season, setSeason] = useState<SeasonKey>('summer')
   const chips = chipsFor(season)
+  const { ref: sceneRef, y: sceneY } = useParallax<HTMLDivElement>(40)
 
   const change = (s: SeasonKey) => {
     if (s === season) return
@@ -63,10 +65,16 @@ export function Seasonal() {
 
         <div className="mt-12 grid items-center gap-10 lg:mt-16 lg:grid-cols-2 lg:gap-14">
           <Reveal className="order-2 lg:order-1">
-            <div className="overflow-hidden rounded-[2rem] shadow-float ring-1 ring-line">
-              <div className="aspect-[4/3] sm:aspect-[3/2]">
+            <div
+              ref={sceneRef}
+              className="overflow-hidden rounded-[2rem] shadow-float ring-1 ring-line"
+            >
+              <motion.div
+                style={{ y: sceneY }}
+                className="aspect-[4/3] scale-105 sm:aspect-[3/2]"
+              >
                 <SeasonScene season={season} className="h-full w-full" />
-              </div>
+              </motion.div>
             </div>
           </Reveal>
 

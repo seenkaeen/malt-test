@@ -13,6 +13,7 @@ import { Container } from '../ui/Container'
 import { Eyebrow } from '../ui/Eyebrow'
 import { Button } from '../ui/Button'
 import { Reveal } from '../ui/Reveal'
+import { Counter } from '../ui/Counter'
 import { track } from '../../lib/analytics'
 
 const benefits = [
@@ -30,7 +31,7 @@ function PayoutCard() {
   return (
     <div className="relative w-full max-w-sm rounded-[1.75rem] bg-paper p-6 text-ink shadow-float">
       <span className="absolute -right-3 -top-3 inline-flex items-center gap-1 rounded-full bg-meadow px-3 py-1.5 text-xs font-bold text-ink shadow-card">
-        80% to you
+        <Counter to={80} suffix="%" /> to you
       </span>
       <div className="flex items-center justify-between">
         <p className="text-sm font-medium text-muted">This week</p>
@@ -39,10 +40,11 @@ function PayoutCard() {
         </span>
       </div>
       <p className="mt-1 font-display text-4xl font-semibold tracking-tight text-ink tnum">
-        €420.00
+        <Counter to={420} decimals={2} prefix="€" locale />
       </p>
       <p className="mt-1 text-xs font-medium text-forest">
-        +18% vs last week · 12 jobs
+        <Counter to={18} prefix="+" suffix="%" /> vs last week ·{' '}
+        <Counter to={12} /> jobs
       </p>
 
       <div className="mt-5 flex h-20 items-end gap-1.5" aria-hidden>
@@ -92,6 +94,7 @@ export function Workers() {
       className="relative scroll-mt-24 overflow-hidden bg-forest-900 py-20 text-cream sm:py-24 lg:py-32 bg-grain"
     >
       <div className="spot-meadow pointer-events-none absolute inset-x-0 top-0 h-80" />
+      <div className="aurora pointer-events-none absolute inset-0 opacity-60" aria-hidden />
       <Container className="relative">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div>

@@ -147,6 +147,18 @@
   }
 }
 
+@keyframes aurora-drift {
+  0% {
+    transform: translate3d(-5%, -3%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(6%, 4%, 0) scale(1.18);
+  }
+  100% {
+    transform: translate3d(-5%, -3%, 0) scale(1);
+  }
+}
+
 /* ============================================================
    Base
    ============================================================ */
@@ -241,6 +253,23 @@
     rgba(70, 201, 139, 0.18),
     transparent 70%
   );
+}
+
+/* Slowly drifting aurora glow for dark sections */
+.aurora {
+  background:
+    radial-gradient(
+      38% 48% at 28% 32%,
+      rgba(70, 201, 139, 0.22),
+      transparent 70%
+    ),
+    radial-gradient(
+      42% 52% at 74% 64%,
+      rgba(70, 201, 139, 0.12),
+      transparent 72%
+    );
+  filter: blur(24px);
+  animation: aurora-drift 22s ease-in-out infinite;
 }
 
 /* Eyebrow / kicker label */

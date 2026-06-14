@@ -13,6 +13,7 @@ import { Eyebrow } from '../ui/Eyebrow'
 import { Reveal } from '../ui/Reveal'
 import { ServiceArt } from '../illustrations/ServiceArt'
 import { staggerParent, childUp } from '../../lib/motion'
+import { useParallax } from '../../lib/useParallax'
 
 const pillars = [
   {
@@ -55,6 +56,7 @@ const guarantees = [
 ]
 
 export function Trust() {
+  const { ref: bannerRef, y: bannerY } = useParallax<HTMLDivElement>(28)
   return (
     <section
       id="trust"
@@ -76,8 +78,10 @@ export function Trust() {
         {/* proof banner */}
         <Reveal className="mt-12">
           <div className="card-surface grid overflow-hidden rounded-[1.75rem] md:grid-cols-2">
-            <div className="relative min-h-[220px]">
-              <ServiceArt art="window" className="absolute inset-0 h-full w-full" />
+            <div ref={bannerRef} className="relative min-h-[220px] overflow-hidden">
+              <motion.div style={{ y: bannerY }} className="absolute inset-0 scale-110">
+                <ServiceArt art="window" className="h-full w-full" />
+              </motion.div>
               <span className="absolute bottom-4 left-4 inline-flex items-center gap-1.5 rounded-full bg-forest px-3 py-1.5 text-xs font-semibold text-cream">
                 <Check className="h-3.5 w-3.5" aria-hidden /> Completed
               </span>

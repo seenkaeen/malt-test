@@ -24,6 +24,7 @@ export type AnalyticsEvent =
   | 'waitlist_submit'
   | 'waitlist_success'
   | 'waitlist_error'
+  | 'back_to_top'
 
 declare global {
   interface Window {
