@@ -1,0 +1,291 @@
+@import "tailwindcss";
+
+/* ============================================================
+   MALT — Design tokens
+   Nordic premium: warm bone canvas · deep forest green · fresh
+   meadow accent · green-charcoal ink · rare honey/malt warmth.
+   ============================================================ */
+@theme {
+  /* Brand + neutrals */
+  --color-ink: #0c1410;
+  --color-ink-800: #14201a;
+  --color-ink-700: #1d2c24;
+  --color-ink-600: #2a3a31;
+
+  --color-canvas: #f5f4ee;
+  --color-cream: #fbfaf5;
+  --color-paper: #ffffff;
+
+  --color-forest: #0e5c3f;
+  --color-forest-600: #0c5236;
+  --color-forest-700: #0a3d2a;
+  --color-forest-900: #072a1d;
+
+  --color-meadow: #46c98b;
+  --color-meadow-400: #5fd49b;
+  --color-meadow-300: #7fe3b0;
+  --color-meadow-100: #dcf2e6;
+  --color-meadow-50: #eef9f2;
+
+  --color-mist: #e9efe9;
+  --color-sand: #ece9df;
+  --color-sand-200: #e3dfd1;
+
+  --color-honey: #d99a4e;
+  --color-honey-300: #ecc189;
+  --color-honey-100: #f7ecd8;
+
+  --color-muted: #51605a;
+  --color-muted-light: #79857e;
+
+  --color-line: #e5e2d8;
+  --color-line-strong: #d9d5c8;
+  --color-line-dark: rgba(245, 244, 238, 0.12);
+
+  --color-danger: #b42318;
+  --color-danger-bg: #fdecea;
+  --color-danger-border: #f4c7c1;
+
+  /* Typography */
+  --font-display: "Fraunces", ui-serif, Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+
+  --text-display: clamp(2.7rem, 1.3rem + 5.4vw, 5rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.024em;
+  --text-display--font-weight: 500;
+
+  --text-h1: clamp(2.2rem, 1.35rem + 3.4vw, 3.6rem);
+  --text-h1--line-height: 1.05;
+  --text-h1--letter-spacing: -0.02em;
+  --text-h1--font-weight: 500;
+
+  --text-h2: clamp(1.85rem, 1.2rem + 2.6vw, 3rem);
+  --text-h2--line-height: 1.07;
+  --text-h2--letter-spacing: -0.018em;
+  --text-h2--font-weight: 500;
+
+  --text-h3: clamp(1.28rem, 1.05rem + 0.9vw, 1.6rem);
+  --text-h3--line-height: 1.16;
+  --text-h3--letter-spacing: -0.012em;
+  --text-h3--font-weight: 500;
+
+  --text-lead: clamp(1.075rem, 1rem + 0.4vw, 1.3rem);
+  --text-lead--line-height: 1.55;
+
+  --text-eyebrow: 0.78rem;
+  --text-eyebrow--line-height: 1;
+  --text-eyebrow--letter-spacing: 0.16em;
+  --text-eyebrow--font-weight: 600;
+
+  /* Radius */
+  --radius-2xl: 1.25rem;
+  --radius-3xl: 1.75rem;
+  --radius-4xl: 2.25rem;
+  --radius-5xl: 2.75rem;
+
+  /* Shadows — soft, layered, green-tinted ambient */
+  --shadow-soft: 0 1px 2px rgba(12, 20, 16, 0.04),
+    0 8px 24px -14px rgba(12, 20, 16, 0.16);
+  --shadow-card: 0 1px 2px rgba(12, 20, 16, 0.05),
+    0 22px 48px -24px rgba(12, 20, 16, 0.22);
+  --shadow-float: 0 2px 8px rgba(12, 20, 16, 0.06),
+    0 36px 70px -28px rgba(10, 61, 42, 0.32);
+  --shadow-lift: 0 1px 2px rgba(12, 20, 16, 0.05),
+    0 30px 60px -28px rgba(12, 20, 16, 0.3);
+
+  /* Easing */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.22, 1.15, 0.36, 1);
+
+  /* Animations */
+  --animate-float: float 8s ease-in-out infinite;
+  --animate-float-slow: float 13s ease-in-out infinite;
+  --animate-marquee: marquee 42s linear infinite;
+  --animate-shimmer: shimmer 2.4s linear infinite;
+  --animate-pulse-ring: pulse-ring 2.6s var(--ease-out-expo) infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -160% 0;
+  }
+  to {
+    background-position: 260% 0;
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.7;
+  }
+  70%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv05", "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--color-forest);
+    color: var(--color-cream);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-forest);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Tabular figures for prices & data */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+}
+
+/* ============================================================
+   Utilities & textures
+   ============================================================ */
+
+/* Fine film grain for premium tactility on dark / hero surfaces */
+.bg-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+}
+
+/* Lawn mow-stripe field */
+.mow-stripes {
+  background-image: repeating-linear-gradient(
+    115deg,
+    #2f9c63 0 26px,
+    #38ab6e 26px 52px
+  );
+}
+
+/* Hairline gradient divider */
+.rule-fade {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-line-strong),
+    transparent
+  );
+}
+
+/* Soft radial spotlight used behind hero / dark sections */
+.spot-meadow {
+  background: radial-gradient(
+    60% 60% at 50% 0%,
+    rgba(70, 201, 139, 0.18),
+    transparent 70%
+  );
+}
+
+/* Eyebrow / kicker label */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--text-eyebrow);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Marquee row helper (duplicate children inside) */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: var(--animate-marquee);
+}
+
+/* Card base — warm paper with refined hairline + soft float */
+.card-surface {
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-line);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Hide scrollbar for horizontal scroll regions */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

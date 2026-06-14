@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh api *)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "PowerShell($response = Invoke-WebRequest -Uri \"https://raw.githubusercontent.com/anthropics/skills/main/skills/frontend-design/SKILL.md\" -UseBasicParsing; $response.Content)",
+      "PowerShell(if \\(-not \\(Test-Path \"D:\\\\python\\\\claudecode\\\\MALT_WEB\\\\.claude\\\\skills\"\\)\\) { New-Item -ItemType Directory -Path \"D:\\\\python\\\\claudecode\\\\MALT_WEB\\\\.claude\\\\skills\" -Force })",
+      "PowerShell(npm *)",
+      "PowerShell(python \"D:\\\\Claude\\\\.claude\\\\skills\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"home services local marketplace premium Nordic trust booking\" --design-system -p \"Malt\" -f markdown)",
+      "PowerShell(python \"D:\\\\Claude\\\\.claude\\\\skills\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"service marketplace trust premium\" --domain color -n 6)",
+      "mcp__magic__logo_search"
+    ]
+  }
+}
