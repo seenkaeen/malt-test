@@ -8,7 +8,13 @@
       "PowerShell(npm *)",
       "PowerShell(python \"D:\\\\Claude\\\\.claude\\\\skills\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"home services local marketplace premium Nordic trust booking\" --design-system -p \"Malt\" -f markdown)",
       "PowerShell(python \"D:\\\\Claude\\\\.claude\\\\skills\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"service marketplace trust premium\" --domain color -n 6)",
-      "mcp__magic__logo_search"
+      "mcp__magic__logo_search",
+      "Bash(npm run *)",
+      "Read(//tmp/**)",
+      "Bash('/c/Program Files/Google/Chrome/Application/chrome.exe' --headless=new --disable-gpu --hide-scrollbars --window-size=1440,3600 --virtual-time-budget=8000 --screenshot=/tmp/malt_full.png http://localhost:5173/)",
+      "Bash(echo \"exit: $?\")",
+      "Bash('/c/Program Files/Google/Chrome/Application/chrome.exe' --headless=new --disable-gpu --hide-scrollbars --window-size=1440,900 --virtual-time-budget=8000 --screenshot=/tmp/malt_hero.png http://localhost:5173/)",
+      "Bash('/c/Program Files/Google/Chrome/Application/chrome.exe' --headless=new --disable-gpu --hide-scrollbars --window-size=1280,5200 --virtual-time-budget=7000 --screenshot=/tmp/malt_glow.png http://localhost:5173/)"
     ]
   },
   "enabledPlugins": {}

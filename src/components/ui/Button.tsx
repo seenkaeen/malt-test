@@ -21,13 +21,13 @@ const sizes: Record<Size, string> = {
 
 const variants: Record<Variant, string> = {
   primary:
-    'bg-forest text-cream shadow-soft hover:bg-forest-600 hover:shadow-card',
+    'btn-bevel bg-forest text-cream hover:-translate-y-px hover:bg-forest-600',
   secondary:
-    'bg-paper text-ink border border-line shadow-soft hover:border-line-strong hover:bg-cream',
+    'bg-paper text-ink border border-line shadow-soft hover:-translate-y-px hover:border-line-strong hover:bg-cream hover:shadow-card',
   ghost: 'text-ink hover:bg-ink/[0.06]',
-  dark: 'bg-ink text-cream shadow-soft hover:bg-ink-700',
+  dark: 'btn-bevel bg-ink text-cream hover:-translate-y-px hover:bg-ink-700',
   light:
-    'bg-white/10 text-cream border border-white/20 backdrop-blur-sm hover:bg-white/15',
+    'bg-white/10 text-cream border border-white/20 backdrop-blur-sm hover:-translate-y-px hover:bg-white/15',
 }
 
 interface CommonProps {

@@ -2,9 +2,11 @@ import { motion } from 'framer-motion'
 import { ArrowUpRight, Sun, Snowflake, CalendarDays, Check } from 'lucide-react'
 import { Container } from '../ui/Container'
 import { Eyebrow } from '../ui/Eyebrow'
+import { Spotlight } from '../ui/Spotlight'
 import { ServiceArt } from '../illustrations/ServiceArt'
 import { services, type Service } from '../../data/services'
 import { staggerParent, childUp } from '../../lib/motion'
+import { useSpotlight } from '../../lib/useSpotlight'
 import { track } from '../../lib/analytics'
 
 function SeasonTag({ season }: { season: Service['season'] }) {
@@ -37,18 +39,21 @@ function SeasonTag({ season }: { season: Service['season'] }) {
 }
 
 const cardBase =
-  'group card-surface relative flex flex-col overflow-hidden rounded-3xl transition-[transform,box-shadow,border-color] duration-300 ease-out-expo hover:-translate-y-1 hover:border-line-strong hover:shadow-card focus-visible:-translate-y-1'
+  'group/spot group card-surface relative flex flex-col overflow-hidden rounded-3xl transition-[transform,box-shadow,border-color] duration-300 ease-out-expo hover:-translate-y-1 hover:border-line-strong hover:shadow-glow focus-visible:-translate-y-1'
 
 function ServiceCard({ service }: { service: Service }) {
+  const onMove = useSpotlight()
   return (
     <motion.a
       variants={childUp}
       href="#waitlist"
+      onMouseMove={onMove}
       onClick={() =>
         track('service_card_click', { service: service.id, featured: false })
       }
       className={cardBase}
     >
+      <Spotlight />
       <div className="relative aspect-[16/10] overflow-hidden">
         <div className="absolute inset-0 transition-transform duration-700 ease-out-expo group-hover:scale-[1.06]">
           <ServiceArt art={service.art} className="h-full w-full" />
@@ -57,7 +62,7 @@ function ServiceCard({ service }: { service: Service }) {
           <SeasonTag season={service.season} />
         </span>
       </div>
-      <div className="flex flex-1 flex-col p-5">
+      <div className="relative flex flex-1 flex-col p-5">
         <h3 className="text-h3 text-ink">{service.shortName}</h3>
         <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">
           {service.blurb}
@@ -77,16 +82,19 @@ function ServiceCard({ service }: { service: Service }) {
 }
 
 function FeatureCard({ service }: { service: Service }) {
+  const onMove = useSpotlight()
   return (
     <motion.a
       variants={childUp}
       href="#waitlist"
+      onMouseMove={onMove}
       onClick={() =>
         track('service_card_click', { service: service.id, featured: true })
       }
       className={`${cardBase} sm:col-span-2 lg:col-span-2`}
     >
-      <div className="grid sm:grid-cols-2">
+      <Spotlight />
+      <div className="relative grid sm:grid-cols-2">
         <div className="relative aspect-[16/10] overflow-hidden sm:aspect-auto sm:min-h-[300px]">
           <div className="absolute inset-0 transition-transform duration-700 ease-out-expo group-hover:scale-[1.06]">
             <ServiceArt art={service.art} className="h-full w-full" />

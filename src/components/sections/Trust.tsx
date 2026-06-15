@@ -11,9 +11,11 @@ import {
 import { Container } from '../ui/Container'
 import { Eyebrow } from '../ui/Eyebrow'
 import { Reveal } from '../ui/Reveal'
+import { Spotlight } from '../ui/Spotlight'
 import { ServiceArt } from '../illustrations/ServiceArt'
 import { staggerParent, childUp } from '../../lib/motion'
 import { useParallax } from '../../lib/useParallax'
+import { useSpotlight } from '../../lib/useSpotlight'
 
 const pillars = [
   {
@@ -54,6 +56,28 @@ const guarantees = [
   'Card payment, fully cashless',
   'Refund protection if it’s not right',
 ]
+
+function PillarCard({ p }: { p: (typeof pillars)[number] }) {
+  const onMove = useSpotlight()
+  return (
+    <motion.div
+      variants={childUp}
+      onMouseMove={onMove}
+      className="group/spot card-surface relative overflow-hidden rounded-3xl p-6 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-glow"
+    >
+      <Spotlight />
+      <div className="relative">
+        <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-meadow-50 text-forest">
+          <p.Icon className="h-5 w-5" aria-hidden />
+        </span>
+        <h3 className="mt-4 text-base font-semibold tracking-tight text-ink">
+          {p.title}
+        </h3>
+        <p className="mt-1.5 text-sm leading-relaxed text-muted">{p.desc}</p>
+      </div>
+    </motion.div>
+  )
+}
 
 export function Trust() {
   const { ref: bannerRef, y: bannerY } = useParallax<HTMLDivElement>(28)
@@ -121,21 +145,7 @@ export function Trust() {
           className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
         >
           {pillars.map((p) => (
-            <motion.div
-              key={p.title}
-              variants={childUp}
-              className="card-surface rounded-3xl p-6 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-card"
-            >
-              <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-meadow-50 text-forest">
-                <p.Icon className="h-5 w-5" aria-hidden />
-              </span>
-              <h3 className="mt-4 text-base font-semibold tracking-tight text-ink">
-                {p.title}
-              </h3>
-              <p className="mt-1.5 text-sm leading-relaxed text-muted">
-                {p.desc}
-              </p>
-            </motion.div>
+            <PillarCard key={p.title} p={p} />
           ))}
         </motion.div>
       </Container>

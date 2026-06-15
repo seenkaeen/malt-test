@@ -1,6 +1,7 @@
 import { MapPin } from 'lucide-react'
 import { Container } from '../ui/Container'
 import { Button } from '../ui/Button'
+import { Magnetic } from '../ui/Magnetic'
 import { Logo } from '../brand/Logo'
 import {
   AppleGlyph,
@@ -85,16 +86,18 @@ export function Footer() {
               Hand off the home to-do list.
             </h2>
             <div className="flex flex-col gap-3 sm:flex-row">
-              <Button
-                href="#waitlist"
-                size="lg"
-                withArrow
-                onClick={() =>
-                  track('cta_join_early_access', { location: 'footer' })
-                }
-              >
-                Join early access
-              </Button>
+              <Magnetic>
+                <Button
+                  href="#waitlist"
+                  size="lg"
+                  withArrow
+                  onClick={() =>
+                    track('cta_join_early_access', { location: 'footer' })
+                  }
+                >
+                  Join early access
+                </Button>
+              </Magnetic>
               <Button
                 href="#workers"
                 variant="light"

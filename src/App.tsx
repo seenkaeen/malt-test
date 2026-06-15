@@ -17,6 +17,7 @@ import { Footer } from './components/sections/Footer'
 export default function App() {
   return (
     <MotionConfig reducedMotion="user">
+      <div className="grain-overlay" aria-hidden />
       <ScrollProgress />
       <a
         href="#main"

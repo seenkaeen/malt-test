@@ -17,6 +17,7 @@ import {
 } from 'lucide-react'
 import { Container } from '../ui/Container'
 import { Button } from '../ui/Button'
+import { Magnetic } from '../ui/Magnetic'
 import { Eyebrow } from '../ui/Eyebrow'
 import { HomeScene } from '../illustrations/HomeScene'
 import { track } from '../../lib/analytics'
@@ -153,10 +154,14 @@ export function Hero() {
       aria-labelledby="hero-title"
       className="relative overflow-hidden pt-28 pb-16 sm:pt-32 lg:pb-24"
     >
-      {/* soft ambient wash */}
+      {/* soft ambient wash — slowly drifting for subtle life */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -top-40 right-[-10%] h-[520px] w-[520px] rounded-full bg-meadow-100 opacity-50 blur-3xl" />
-        <div className="absolute top-40 left-[-12%] h-[420px] w-[420px] rounded-full bg-sand opacity-50 blur-3xl" />
+        <div className="absolute -top-40 right-[-10%] h-[520px] w-[520px] rounded-full bg-meadow-100 opacity-50 blur-3xl animate-drift will-change-transform" />
+        <div className="absolute top-40 left-[-12%] h-[420px] w-[420px] rounded-full bg-sand opacity-50 blur-3xl animate-drift-slow will-change-transform" />
+        <div
+          className="absolute bottom-[-12%] left-[34%] h-[360px] w-[360px] rounded-full bg-honey-100 opacity-30 blur-3xl animate-drift will-change-transform"
+          style={{ animationDelay: '-13s' }}
+        />
       </div>
 
       <Container>
@@ -207,24 +212,30 @@ export function Hero() {
               variants={item}
               className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center"
             >
-              <Button
-                href="#waitlist"
-                size="lg"
-                withArrow
-                onClick={() =>
-                  track('cta_join_early_access', { location: 'hero' })
-                }
-              >
-                Join early access
-              </Button>
-              <Button
-                href="#workers"
-                variant="secondary"
-                size="lg"
-                onClick={() => track('cta_work_with_malt', { location: 'hero' })}
-              >
-                Work with Malt
-              </Button>
+              <Magnetic>
+                <Button
+                  href="#waitlist"
+                  size="lg"
+                  withArrow
+                  onClick={() =>
+                    track('cta_join_early_access', { location: 'hero' })
+                  }
+                >
+                  Join early access
+                </Button>
+              </Magnetic>
+              <Magnetic strength={0.16}>
+                <Button
+                  href="#workers"
+                  variant="secondary"
+                  size="lg"
+                  onClick={() =>
+                    track('cta_work_with_malt', { location: 'hero' })
+                  }
+                >
+                  Work with Malt
+                </Button>
+              </Magnetic>
             </motion.div>
 
             <motion.ul

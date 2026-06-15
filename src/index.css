@@ -94,6 +94,10 @@
     0 36px 70px -28px rgba(10, 61, 42, 0.32);
   --shadow-lift: 0 1px 2px rgba(12, 20, 16, 0.05),
     0 30px 60px -28px rgba(12, 20, 16, 0.3);
+  /* Hover halo — carries the meadow hue instead of plain black */
+  --shadow-glow: 0 1px 2px rgba(12, 20, 16, 0.05),
+    0 24px 50px -22px rgba(14, 92, 63, 0.28),
+    0 0 0 1px rgba(70, 201, 139, 0.14);
 
   /* Easing */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -105,6 +109,8 @@
   --animate-marquee: marquee 42s linear infinite;
   --animate-shimmer: shimmer 2.4s linear infinite;
   --animate-pulse-ring: pulse-ring 2.6s var(--ease-out-expo) infinite;
+  --animate-drift: drift 24s ease-in-out infinite;
+  --animate-drift-slow: drift-rev 32s ease-in-out infinite;
 }
 
 @keyframes float {
@@ -156,6 +162,26 @@
   }
   100% {
     transform: translate3d(-5%, -3%, 0) scale(1);
+  }
+}
+
+/* Long, lazy backdrop drift for hero ambient washes */
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(4%, 5%, 0) scale(1.12);
+  }
+}
+@keyframes drift-rev {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-5%, -4%, 0) scale(1.1);
   }
 }
 
@@ -226,6 +252,35 @@
   mix-blend-mode: overlay;
 }
 
+/* Page-wide film grain — a single fixed layer for whole-site tactility */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+}
+
+/* Cursor-tracked spotlight glow — set --mx/--my on the .group/spot host */
+.spot-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out-expo);
+  background: radial-gradient(
+    240px circle at var(--mx, 50%) var(--my, 0%),
+    rgba(70, 201, 139, 0.16),
+    transparent 62%
+  );
+}
+.group\/spot:hover .spot-glow {
+  opacity: 1;
+}
+
 /* Lawn mow-stripe field */
 .mow-stripes {
   background-image: repeating-linear-gradient(
@@ -270,6 +325,14 @@
     );
   filter: blur(24px);
   animation: aurora-drift 22s ease-in-out infinite;
+}
+
+/* Solid CTA: top-edge light catch + soft ambient drop (composited in one shadow) */
+.btn-bevel {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), var(--shadow-soft);
+}
+.btn-bevel:hover {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), var(--shadow-card);
 }
 
 /* Eyebrow / kicker label */
